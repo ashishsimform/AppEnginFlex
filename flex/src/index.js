@@ -7,16 +7,15 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 const mountNode = document.getElementById("root");
-
+console.log(process.env);
 window.onload = () => {
-  const predefinedConfig = window.appConfig || {};
-
   const configuration = {
-    ...predefinedConfig,
+    sso: {
+      accountSid: process.env.REACT_APP_APPID
+    }
   };
-
-  Flex
-    .progress(mountNode)
+  console.log(configuration);
+  Flex.progress(mountNode)
     .provideLoginInfo(configuration, mountNode)
     .then(() => Flex.Manager.create(configuration))
     .then(manager => renderApp(manager))
@@ -24,10 +23,7 @@ window.onload = () => {
 };
 
 function renderApp(manager) {
-  ReactDOM.render(
-    <App manager={manager} />,
-    mountNode
-  );
+  ReactDOM.render(<App manager={manager} />, mountNode);
 }
 
 function handleError(error) {
